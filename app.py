@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request ,jsonify
 import requests
 
+channelWebhook = 'https://hooks.slack.com/services/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'
 app = Flask(__name__)
 
 
@@ -8,13 +9,12 @@ app = Flask(__name__)
 def home():
     if request.method == 'POST':
         data = request.form  # Get the JSON data from the request
-        url = 'https://hooks.slack.com/services/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'
-        data ={
+        message ={
             "text": data.get("text").upper()
         }
 
 
-        response = requests.post(url, json=data)
+        response = requests.post(channelWebhook, json=message)
 
         if response.status_code == 200:
             return jsonify({"response_type": "ephemeral","text": "Forwarded Successfully"}), 200
